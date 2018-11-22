@@ -16,7 +16,7 @@ func main() {
 		// this key from database, file or network
 		value := "this is a mock value with key " + key.(string)
 		// create a new item
-		item := cpcache2go.NewCacheItem(key, 0, &value)
+		item := cpcache2go.NewCacheItem(key, 0, value)
 
 		return item
 	})
@@ -35,7 +35,7 @@ func main() {
 	}
 
 	cache.Foreach(func(key interface{}, item *cpcache2go.CacheItem) {
-		fmt.Println("KEY:", key.(string))
+		fmt.Println("KEY:", key.(string), "DATA:", item.Data())
 	})
 
 }
