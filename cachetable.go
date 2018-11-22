@@ -66,6 +66,14 @@ func (table *CacheTable) SetAddedItemCallback(f func(item *CacheItem)) {
 	table.addedItem = f
 }
 
+// SetAboutToDeleteItemCallback configures a callback, which will be called
+// every time an item is about to removed from the cache
+func (table *CacheTable) SetAboutToDeleteItemCallback(f func(item *CacheItem)) {
+	table.Lock()
+	defer table.Unlock()
+	table.aboutToDeleteItem = f
+}
+
 // SetLogger configure the logger used by the table
 func (table *CacheTable) SetLogger(logger *log.Logger) {
 	table.Lock()
@@ -150,7 +158,6 @@ func (table *CacheTable) Add(key interface{}, lifeSpan time.Duration, data inter
 
 // delete item from the cache, the method is internal
 func (table *CacheTable) deleteInternal(key interface{}) (*CacheItem, error) {
-	table.Lock()
 	r, ok := table.items[key]
 	if !ok {
 		return nil, ErrKeyNotFound

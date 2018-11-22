@@ -90,7 +90,7 @@ func (item *CacheItem) Data() interface{} {
 
 // SetAboutToExpireCallback configure a callback, which will be called right
 // before the item is about to be removed from the cache
-func (item *CacheItem) SetAboutToExpireCallback(f func(interface{})) {
+func (item *CacheItem) SetAboutToExpireCallback(f func(key interface{})) {
 	item.Lock()
 	defer item.Unlock()
 	item.aboutToExpire = f
